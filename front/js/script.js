@@ -1,4 +1,3 @@
-
 fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
     .then((data) => addProducts(data)
@@ -14,25 +13,33 @@ fetch("http://localhost:3000/api/products")
     //_id: "107fb5b75607497b96722bda5b504926"
 
 
+function addProducts(kanaps) {
+    //const id = data[0]._id
+    //const imageUrl = data[0].imageUrl
+    //const altTxt = data[0].altTxt
+    //const name = data[0].name
+    //const description = data[0].description
+   
+    kanaps.forEach((Kanap) => {
+    
+        
+        const { id, imageUrl, altTxt, name, description } = Kanap
+        const anchor = makeAnchor(id)
+        const article = document.createElement("article")
+        const image = makeImage(imageUrl, altTxt)
+        const h3 = makeH3(name)
+        const p = makeParagraph(description)
+       
+        appendElementsToArticle(article, image, h3, p)
+        appendArticleToAnchor(anchor, article)
+    })
+    
+}
 
-// addProducts get the data's
-function addProducts(products) {
-    const id = products[0]._id
-    const imageUrl = products[0].imageUrl
-    const altTxt = products[0].altTxt
-    const name = products[0].name
-    const description = products[0].description
-    
-    const image = makeImage(imageUrl, altTxt)
-    const anchor = makeAnchor(id)
-    const article = makeArticle()
-    const h3 = makeH3(name)
-    const p = makeParagraph(description)
-    
+function appendElementsToArticle(article, image, h3, p) {
     article.appendChild(image)
     article.appendChild(h3)
     article.appendChild(p)
-    appendChildren(anchor, article)
 }
 
 function makeAnchor(id) {
@@ -41,7 +48,7 @@ function makeAnchor(id) {
     return anchor
 }
 
-function appendChildren(anchor, article) {
+function appendArticleToAnchor(anchor, article) {
     const items = document.getElementById("items")
     if (items != null){
         items.appendChild(anchor)
@@ -55,12 +62,6 @@ function makeImage(imageUrl, altTxt){
     image.src = imageUrl
     image.alt = altTxt
     return image
-}
-
-function makeArticle (){
-    const article = document.createElement("article")
-    return article
-
 }
 
 function makeH3(name) {
