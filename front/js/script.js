@@ -1,7 +1,6 @@
 fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
-    .then((data) => addProducts(data)
-    )
+    .then((data) => addProducts(data))
     
 
     //altTxt: "Photo d'un canapé bleu, deux places"
@@ -13,17 +12,17 @@ fetch("http://localhost:3000/api/products")
     //_id: "107fb5b75607497b96722bda5b504926"
 
 
-function addProducts(kanaps) {
+function addProducts(sofas) {
     //const id = data[0]._id
     //const imageUrl = data[0].imageUrl
     //const altTxt = data[0].altTxt
     //const name = data[0].name
     //const description = data[0].description
    
-    kanaps.forEach((Kanap) => {
+    sofas.forEach((sofa) => {
     
         
-        const { id, imageUrl, altTxt, name, description } = Kanap
+        const { id, imageUrl, altTxt, name, description } = sofa
         const anchor = makeAnchor(id)
         const article = document.createElement("article")
         const image = makeImage(imageUrl, altTxt)
