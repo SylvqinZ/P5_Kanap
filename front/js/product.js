@@ -58,3 +58,10 @@ function makeColors(colors ='') {
         })
     }
 };
+
+const button = document.querySelector("#addToCart")
+const added = function (){
+    console.log('clicked');
+}
+button.addEventListener('click', added)
+
