@@ -2,17 +2,24 @@ let url = new URL(window.location.href);
 let productId = url.searchParams.get('id');
 console.log(productId);
 
+
 fetch(`http://localhost:3000/api/products/${productId}`)
     .then((res) => res.json())
-    .then((data) => handleData(data))
+    .then((product) => productData(product))
     .catch((err) => {
         console.log("error")
         console.log(err);
+        alert ("ERROR : can't find the back")
 });
 
 
-function handleData(sofa = '') {
+
+
+function productData(sofa = '') {
     const {imageUrl, altTxt, name, colors, price, description } = sofa
+    productPrice = price
+    imgUrl = imageUrl
+    altText = altTxt
     makeImage(imageUrl, altTxt)
     makeTitle(name)
     makePrice(price)
@@ -30,24 +37,25 @@ function makeImage(imageUrl = '', altTxt = '') {
 };
 
 
-function makeTitle(name ='') {
+function makeTitle(name = '') {
     const h1 = document.querySelector("#title")
     if (h1 != null) h1.textContent = name
 };
 
 
-function makePrice(price ='') {
+function makePrice(price = '') {
     const span = document.querySelector('#price')
     if (span != null) span.textContent = price
 };
 
 
-function makeDescription(description ='') {
+function makeDescription(description = '') {
     const p = document.querySelector('#description')
     if (p != null) p.textContent = description
 };
 
-function makeColors(colors ='') {
+
+function makeColors(colors = '') {
     const select = document.querySelector("#colors")
     if (select != null) {
         colors.forEach((color) => {
@@ -59,9 +67,22 @@ function makeColors(colors ='') {
     }
 };
 
-const button = document.querySelector("#addToCart")
-const added = function (){
-    console.log('clicked');
-}
-button.addEventListener('click', added)
 
+const button = document.querySelector("#addToCart")
+    button.addEventListener('click', () => {
+        const color = document.querySelector("#colors").value
+        const quantity = document.querySelector("#quantity").value
+        console.log('added to cart');
+        
+    const productInfo = {
+        id : productId,
+        color: color,
+        quantity: quantity,
+        price: productPrice,
+        imageUrl: imgUrl,
+        altTxt: altText
+    };
+
+    localStorage.setItem(productId, JSON.stringify(productInfo));
+     //window.location.href = "cart.html"
+});
