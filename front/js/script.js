@@ -28,7 +28,6 @@ function addProducts(sofas = []) {
     const image = makeImage(imageUrl, altTxt);
     const h3 = makeH3(name);
     const p = makeParagraph(description);
-
     appendElementsToArticle(article, image, h3, p);
     appendArticleToAnchor(anchor, article);
   });
