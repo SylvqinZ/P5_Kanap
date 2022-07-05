@@ -63,7 +63,7 @@ button.addEventListener("click", () => {
   const color = document.querySelector("#colors").value;
   const quantity = document.querySelector("#quantity").value;
   if (color == null || color === "" || quantity == null || quantity == 0) {
-    alert("Selectionné une couleur/quantitée");
+    alert("Selectionnez une couleur/quantitée");
   }
   console.log("added to cart");
 
@@ -88,14 +88,4 @@ button.addEventListener("click", () => {
   }
 });
 
-/*function save(){
-    const newData = document.getElementById('#colors').value
-    if(localStorage.getItem('data') == null){
-        localStorage.setItem('data', '[]')
-    }
 
-    const oldData = JSON.parse(localStorage.getItem('data'));
-    oldData.push(newData);
-
-    localStorage.setItem('data', JSON.stringify(oldData));
-}*/
