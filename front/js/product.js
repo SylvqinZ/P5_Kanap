@@ -58,14 +58,12 @@ function makeColors(colors = "") {
   }
 }
 
-
 // ADD PRODUCTS TO CART
 
 const button = document.querySelector("#addToCart");
 button.addEventListener("click", addToCart);
 
 function addToCart() {
-
   const color = document.querySelector("#colors").value;
   const quantity = document.querySelector("#quantity").value;
   const productInfo = {
@@ -79,7 +77,7 @@ function addToCart() {
     return true;
   }
   if (window.confirm(`Vous rendre au panier ?`))
-  window.location.href = "cart.html";
+    window.location.href = "cart.html";
 
   let save = JSON.parse(localStorage.getItem("cart"));
   //console.log(save);
@@ -88,7 +86,7 @@ function addToCart() {
     const resultFind = save.find(
       (el) => el.id === productId && el.colors === color
     );
-    
+
     if (resultFind) {
       let newQuantite =
         parseInt(productInfo.quantities) + parseInt(resultFind.quantities);
@@ -106,7 +104,4 @@ function addToCart() {
     localStorage.setItem("cart", JSON.stringify(save));
     //console.log(save);
   }
-  
 }
-
-
