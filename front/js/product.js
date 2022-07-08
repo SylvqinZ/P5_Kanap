@@ -4,18 +4,18 @@ console.log(productId);
 
 fetch(`http://localhost:3000/api/products/${productId}`)
   .then((res) => res.json())
-  .then((product) => productData(product))
+  .then((product) => sofa(product))
   .catch((err) => {
     console.log("error");
     console.log(err);
-    alert("ERROR : can't find the back");
+    alert();
   });
 
-function productData(sofa = "") {
+function sofa(sofa = "") {
   const { imageUrl, altTxt, name, colors, price, description } = sofa;
-  productPrice = price;
-  imgUrl = imageUrl;
-  altText = altTxt;
+  //productPrice = price;
+  //imgUrl = imageUrl;
+  //altText = altTxt;
   makeImage(imageUrl, altTxt);
   makeTitle(name);
   makePrice(price);
@@ -59,33 +59,59 @@ function makeColors(colors = "") {
 }
 
 const button = document.querySelector("#addToCart");
-button.addEventListener("click", () => {
+button.addEventListener("click", clicked);
+
+function clicked() {
   const color = document.querySelector("#colors").value;
   const quantity = document.querySelector("#quantity").value;
+
+  if (orderInvalid(color, quantity)) return;
+  saveOrder(color, quantity);
+  //redirectToCart();
+}
+
+function redirectToCart() {
+  window.location.href = "cart.html";
+}
+
+function orderInvalid(color, quantity) {
   if (color == null || color === "" || quantity == null || quantity == 0) {
     alert("Selectionnez une couleur/quantitée");
+    return true;
   }
   console.log("added to cart");
+}
 
-  const productInfo = {
+function saveOrder(color, quantity) {
+  let productInfo = {
     id: productId,
-    color: color,
-    quantity: quantity,
+    colors: color,
+    quantities: Number(quantity),
   };
 
   let save = JSON.parse(localStorage.getItem("cart"));
   console.log(save);
 
   if (save) {
-    save.push(productInfo);
-    localStorage.setItem("cart", JSON.stringify(save));
-    console.log(save);
+    const resultFind = save.find(
+      (el) => el.id === productId && el.colors === color
+    );
+    //Si le produit commandé est déjà dans le panier
+    if (resultFind) {
+      let newQuantite =
+        parseInt(productInfo.quantities) + parseInt(resultFind.quantities);
+      resultFind.quantities = newQuantite;
+      localStorage.setItem("cart", JSON.stringify(save));
+      console.log(save);
+    } else {
+      save.push(productInfo);
+      localStorage.setItem("cart", JSON.stringify(save));
+      console.log(save);
+    }
   } else {
     save = [];
     save.push(productInfo);
     localStorage.setItem("cart", JSON.stringify(save));
     console.log(save);
   }
-});
-
-
+}
