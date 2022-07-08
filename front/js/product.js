@@ -64,15 +64,15 @@ const button = document.querySelector("#addToCart");
 button.addEventListener("click", addToCart);
 
 function addToCart() {
-  const color = document.querySelector("#colors").value;
-  const quantity = document.querySelector("#quantity").value;
+  const productColor = document.querySelector("#colors").value;
+  const productQuantity = document.querySelector("#quantity").value;
   const productInfo = {
     id: productId,
-    colors: color,
-    quantities: Number(quantity),
+    color: productColor,
+    quantity: Number(productQuantity),
   };
 
-  if (color == null || color === "" || quantity == null || quantity == 0) {
+  if (productColor == null || productColor === "" || productQuantity == null || productQuantity == 0) {
     alert("Selectionnez une couleur/quantité");
     return true;
   }
@@ -84,13 +84,13 @@ function addToCart() {
 
   if (save) {
     const resultFind = save.find(
-      (el) => el.id === productId && el.colors === color
+      (el) => el.id === productId && el.color === productColor
     );
 
     if (resultFind) {
       let newQuantite =
-        parseInt(productInfo.quantities) + parseInt(resultFind.quantities);
-      resultFind.quantities = newQuantite;
+        parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
+      resultFind.quantity= newQuantite;
       localStorage.setItem("cart", JSON.stringify(save));
       //console.log(save);
     } else {
