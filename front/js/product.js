@@ -8,14 +8,14 @@ fetch(`http://localhost:3000/api/products/${productId}`)
   .catch((err) => {
     console.log("error");
     console.log(err);
-    alert("ERROR : can't find the back");
+    alert();
   });
 
 function sofa(sofa = "") {
   const { imageUrl, altTxt, name, colors, price, description } = sofa;
-  productPrice = price;
-  imgUrl = imageUrl;
-  altText = altTxt;
+  //productPrice = price;
+  //imgUrl = imageUrl;
+  //altText = altTxt;
   makeImage(imageUrl, altTxt);
   makeTitle(name);
   makePrice(price);
@@ -67,12 +67,12 @@ function clicked() {
 
   if (orderInvalid(color, quantity)) return;
   saveOrder(color, quantity);
-  //redirectToCart()
+  //redirectToCart();
 }
 
-//function redirectToCart(){
-//  window.location.href = "#"
-//}
+function redirectToCart() {
+  window.location.href = "cart.html";
+}
 
 function orderInvalid(color, quantity) {
   if (color == null || color === "" || quantity == null || quantity == 0) {
@@ -83,20 +83,31 @@ function orderInvalid(color, quantity) {
 }
 
 function saveOrder(color, quantity) {
-  const productInfo = {
+  let productInfo = {
     id: productId,
-    color: color,
-    quantity: quantity,
-    
+    colors: color,
+    quantities: Number(quantity),
   };
 
   let save = JSON.parse(localStorage.getItem("cart"));
   console.log(save);
 
   if (save) {
-    save.push(productInfo);
-    localStorage.setItem("cart", JSON.stringify(save));
-    console.log(save);
+    const resultFind = save.find(
+      (el) => el.id === productId && el.colors === color
+    );
+    //Si le produit commandé est déjà dans le panier
+    if (resultFind) {
+      let newQuantite =
+        parseInt(productInfo.quantities) + parseInt(resultFind.quantities);
+      resultFind.quantities = newQuantite;
+      localStorage.setItem("cart", JSON.stringify(save));
+      console.log(save);
+    } else {
+      save.push(productInfo);
+      localStorage.setItem("cart", JSON.stringify(save));
+      console.log(save);
+    }
   } else {
     save = [];
     save.push(productInfo);
@@ -104,151 +115,3 @@ function saveOrder(color, quantity) {
     console.log(save);
   }
 }
-
-let cartArray = JSON.parse(localStorage.getItem("cart"));
-const color = document.querySelector("#colors");
-const quantity = document.querySelector("#quantity");
-console.log(color.value);
-console.log(quantity.value);
-console.log(cartArray);
-
-
-
-/*
-const fusion = Object.assign({}, sofa, {
-  teinte: `${select.value}`,
-  //quantite: 1,
-  quantite: `${selectQ.value}`,
-});
-console.log(fusion);
-
-
-
-for (i = 0; i < cartArray.length; i++) {
-  if (
-    cartArray[i]._id == sofa._id &&
-    cartArray[i].teinte != teinte.value &&
-    cartArray[i].quantite != quantite.value &&
-    cartArray[i]._id != sofa._id
-  ) {
-    return (
-      console.log("nouveau"),
-      cartArray.push(fusion),
-      localStorage.setItem("cart", JSON.stringify(cartArray)),
-      (cartArray = JSON.parse(localStorage.getItem("cart")))
-    );
-  }
-}
-
-return (cartArray = JSON.parse(localStorage.getItem("cart")));
-
-/*else if (produitTableau != null) {
-  for (i = 0; i < produitTableau.length; i++){
-    console.log("test");
-    if (
-      produitTableau[i]._id == productData._id && 
-        produitTableau[i].teinte == select.value 
-        &&produitTableau[i].quantite == selectQ.value
-        ){
-        return (
-          produitTableau[i].quantite++,
-          console.log("quantite++"),
-          localStorage.setItem(
-            "produit",
-            JSON.stringify(produitTableau)),
-            (produitTableau = JSON.parse(localStorage.getItem("produit")))
-        );
-      }
-  }
-  */
-
-/*
-const button = document.querySelector("#addToCart");
-button.addEventListener("click", () => {
-//const color = document.querySelector("#colors").value;
-//const quantity = document.querySelector("#quantity").value;
-//if (color == null || color === "" || quantity == null || quantity == 0) {
- // alert("Selectionnez une couleur/quantitée");
-//}
-console.log("added to cart");
-
-let produitTableau = JSON.parse(localStorage.getItem("produit"));
-const select = document.querySelector("#colors")
-const selectQ = document.querySelector("#quantity")
-console.log(select.value);
-//console.log(selectQ.value);
-console.log(produitTableau);
-*/
-
-/*const productInfo = {
-id: productId,
-color: color,
-quantity: quantity,
-};
-*/
-//let produitTableau = JSON.parse(localStorage.getItem("cart"));
-//console.log(produitTableau);
-
-/*
-const fusionProduitTeinte = Object.assign({}, productData, {
-  teinte:`${select.value}`,
-  //quantite: 1,
-  quantite : `${selectQ.value}`
-})
-console.log(fusionProduitTeinte);
-
-if (produitTableau == null) {
-  produitTableau = [];
-  produitTableau.push(fusionProduitTeinte);
-  console.log(produitTableau);
-  localStorage.setItem("produit", JSON.stringify(produitTableau));
-} else if (produitTableau != null) {
-  for (i = 0; i < produitTableau.length; i++){
-    console.log("test");
-    if (
-      produitTableau[i]._id == productData._id && 
-        produitTableau[i].teinte == select.value 
-        &&produitTableau[i].quantite == selectQ.value
-        ){
-        return (
-          produitTableau[i].quantite++,
-          console.log("quantite++"),
-          localStorage.setItem(
-            "produit",
-            JSON.stringify(produitTableau)),
-            (produitTableau = JSON.parse(localStorage.getItem("produit")))
-        );
-      }
-  }
-  for (i = 0; i < produitTableau.length; i++) {
-    if (produitTableau[i]._id == productData._id && produitTableau[i].teinte != select.value 
-      && produitTableau[i].quantite != selectQ.value 
-      && produitTableau[i]._id != productData._id) {
-      return (console.log("nouveau"),
-      produitTableau.push(fusionProduitTeinte),
-      localStorage.setItem("produit", JSON.stringify(produitTableau)),
-      (produitTableau = JSON.parse(localStorage.getItem("produit")))
-      ) 
-    }
-  }
-}
-return (produitTableau = JSON.parse(localStorage.getItem("produit")));
-});
-/*
-if (produitTableau) {
-  produitTableau.push(fusionProduitTeinte);
-  localStorage.setItem("produit", JSON.stringify(produitTableau));
-  console.log(produitTableau);
-} else {
-  produitTableau = [];
-  produitTableau.push(produitTableau);
-  localStorage.setItem("produit", JSON.stringify(produitTableau));
-  console.log(produitTableau);
-  if (produitTableau != null) {
-    for (let i = 0; i < localStorage.length; i++) {
-      localStorage.key(i);
-      
-    }
-  }
-}
-*/
