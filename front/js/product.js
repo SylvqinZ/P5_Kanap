@@ -73,7 +73,7 @@ function addToCart() {
   };
 
   if (productColor == null || productColor === "" || productQuantity == null || productQuantity == 0) {
-    alert("Selectionnez une couleur/quantité");
+    alert("Sélectionnez une couleur/quantité");
     return true;
   }
   if (window.confirm(`Vous rendre au panier ?`))
@@ -88,15 +88,15 @@ function addToCart() {
     );
 
     if (resultFind) {
-      let newQuantite =
+      let newQuantity =
         parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
-      resultFind.quantity= newQuantite;
+      resultFind.quantity = newQuantity;
       localStorage.setItem("cart", JSON.stringify(save));
       //console.log(save);
     } else {
       save.push(productInfo);
       localStorage.setItem("cart", JSON.stringify(save));
-      console.log(save);
+      //console.log(save);
     }
   } else {
     save = [];
