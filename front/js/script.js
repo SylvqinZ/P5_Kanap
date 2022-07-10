@@ -6,21 +6,12 @@ fetch("http://localhost:3000/api/products")
     console.log(err);
   });
 
-//altTxt: "Photo d'un canapé bleu, deux places"
-//colors: (3) ['Blue', 'White', 'Black']
-//description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-//imageUrl: "http://localhost:3000/images/kanap01.jpeg"
-//name: "Kanap Sinopé"
-//price: 1849
-//_id: "107fb5b75607497b96722bda5b504926"
+
+newPageTitle = 'Kanap - Les meilleurs canapé de Paris';
+document.querySelector('title').textContent = newPageTitle;
+
 
 function addProducts(sofas = []) {
-  //const id = data[0]._id
-  //const imageUrl = data[0].imageUrl
-  //const altTxt = data[0].altTxt
-  //const name = data[0].name
-  //const description = data[0].description
-
   sofas.forEach((sofa) => {
     const { _id, imageUrl, altTxt, name, description } = sofa;
     const anchor = makeAnchor(_id);

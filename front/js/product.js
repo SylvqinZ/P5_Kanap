@@ -21,6 +21,9 @@ function sofa(sofa = "") {
   makePrice(price);
   makeDescription(description);
   makeColors(colors);
+
+  newPageTitle = "Kanap - " + name;
+  document.querySelector("title").textContent = newPageTitle;
 }
 
 function makeImage(imageUrl = "", altTxt = "") {
@@ -72,12 +75,17 @@ function addToCart() {
     quantity: Number(productQuantity),
   };
 
-  if (productColor == null || productColor === "" || productQuantity == null || productQuantity == 0) {
+  if (
+    productColor == null,
+    productColor === "",
+    productQuantity == null,
+    productQuantity == 0
+  ) {
     alert("Sélectionnez une couleur/quantité");
     return true;
   }
-  if (window.confirm(`Vous rendre au panier ?`))
-    window.location.href = "cart.html";
+  //if (window.confirm(`Vous rendre au panier ?`))
+  //window.location.href = "cart.html";
 
   let save = JSON.parse(localStorage.getItem("cart"));
   //console.log(save);
