@@ -1,5 +1,4 @@
-let url = new URL(window.location.href);
-let productId = url.searchParams.get("id");
+const productId = getUrlParam(urlId = "id")
 console.log(productId);
 
 fetch(`http://localhost:3000/api/products/${productId}`)
@@ -12,7 +11,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
   });
 
 function sofa(sofa = "") {
-  const { imageUrl, altTxt, name, colors, price, description } = sofa;
+  const {imageUrl, altTxt, name, colors, price, description} = sofa;
   //productPrice = price;
   //imgUrl = imageUrl;
   //altText = altTxt;
@@ -21,6 +20,9 @@ function sofa(sofa = "") {
   makePrice(price);
   makeDescription(description);
   makeColors(colors);
+
+  newPageTitle = "Kanap - " + name;
+  document.querySelector("title").textContent = newPageTitle;
 }
 
 function makeImage(imageUrl = "", altTxt = "") {
@@ -64,44 +66,47 @@ const button = document.querySelector("#addToCart");
 button.addEventListener("click", addToCart);
 
 function addToCart() {
-  const color = document.querySelector("#colors").value;
-  const quantity = document.querySelector("#quantity").value;
+  let cart = getCart();
+  const productColor = document.querySelector("#colors").value;
+  const productQuantity = document.querySelector("#quantity").value;
   const productInfo = {
     id: productId,
-    colors: color,
-    quantities: Number(quantity),
+    color: productColor,
+    quantity: Number(productQuantity),
   };
 
-  if (color == null || color === "" || quantity == null || quantity == 0) {
-    alert("Selectionnez une couleur/quantité");
+  if (
+    productColor == null ||
+    productColor == "" ||
+    productQuantity == null ||
+    productQuantity == 0
+  ) {
+    alert("Sélectionnez une couleur/quantité");
     return true;
   }
   if (window.confirm(`Vous rendre au panier ?`))
-    window.location.href = "cart.html";
+  window.location.href = "cart.html";
 
-  let save = JSON.parse(localStorage.getItem("cart"));
-  //console.log(save);
-
-  if (save) {
-    const resultFind = save.find(
-      (el) => el.id === productId && el.colors === color
+  if (cart) {
+    const resultFind = cart.find(
+      (el) => el.id === productId && el.color === productColor
     );
 
     if (resultFind) {
-      let newQuantite =
-        parseInt(productInfo.quantities) + parseInt(resultFind.quantities);
-      resultFind.quantities = newQuantite;
-      localStorage.setItem("cart", JSON.stringify(save));
-      //console.log(save);
+      let newQuantity =
+      parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
+      resultFind.quantity = newQuantity;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log(cart);
     } else {
-      save.push(productInfo);
-      localStorage.setItem("cart", JSON.stringify(save));
-      console.log(save);
+      cart.push(productInfo);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log(cart);
     }
   } else {
-    save = [];
-    save.push(productInfo);
-    localStorage.setItem("cart", JSON.stringify(save));
-    //console.log(save);
+    cart = [];
+    cart.push(productInfo);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(cart);
   }
 }
