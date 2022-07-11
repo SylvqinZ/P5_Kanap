@@ -13,6 +13,7 @@ document.querySelector('title').textContent = newPageTitle;
 
 function addProducts(sofas = []) {
   
+
   sofas.forEach((sofa) => {
     const { _id, imageUrl, altTxt, name, description } = sofa;
     const anchor = makeAnchor(_id);
@@ -45,7 +46,12 @@ function appendArticleToAnchor(anchor = "", article = "") {
   }
 }
 
-
+function makeImage(imageUrl = "", altTxt = "") {
+  const image = document.createElement("img");
+  image.src = imageUrl;
+  image.alt = altTxt;
+  return image;
+}
 
 function makeH3(name = "") {
   const h3 = document.createElement("h3");
