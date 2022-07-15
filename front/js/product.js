@@ -1,4 +1,4 @@
-const productId = getUrlParam(urlId = "id")
+const productId = getUrlParam((paramName = "id"));
 console.log(productId);
 
 fetch(`http://localhost:3000/api/products/${productId}`)
@@ -11,33 +11,65 @@ fetch(`http://localhost:3000/api/products/${productId}`)
   });
 
 function sofa(sofa = "") {
-  const {imageUrl, altTxt, name, colors, price, description} = sofa;
+  const { imageUrl, altTxt, name, colors, price, description } = sofa;
   //productPrice = price;
   //imgUrl = imageUrl;
   //altText = altTxt;
-  makeImage(imageUrl, altTxt);
-  makeTitle(name);
-  makePrice(price);
-  makeDescription(description);
-  makeColors(colors);
+  //makeImage(imageUrl, altTxt);
+  //makeTitle(name);
+  //makeColors(colors);
+  //makePrice(price);
+  //makeDescription(description);
 
-  newPageTitle = "Kanap - " + name;
-  document.querySelector("title").textContent = newPageTitle;
+  //GET PRODUTCOLORS
+  const option = document.querySelector("#colors");
+  if (option != null) {
+    colors.forEach((color) => {
+      createHtmlTag(
+        (htmlTag = "option"),
+        (attributes = { value: color }),
+        (textContent = color),
+        option
+      );
+    });
+
+    //GET PRODUCT NAME PAGE TITLE
+    setHtmlHeadTitle(name + " - Kanap");
+
+    // CREATE IMAGES
+    const image = createHtmlTag(
+      (htmlTag = "img"),
+      (attributes = { src: imageUrl, alt: altTxt })
+    );
+    const parent = document.querySelector(".item__img");
+    if (parent != null) parent.appendChild(image);
+
+    manageHtmlTag(document.querySelector("#title"), {}, (textContent = name));
+    manageHtmlTag(document.querySelector("#price"), {}, (textContent = price));
+    manageHtmlTag(
+      document.querySelector("#description"),
+      {},
+      (textContent = description)
+    );
+  }
 }
-
-function makeImage(imageUrl = "", altTxt = "") {
-  const image = document.createElement("img");
-  image.src = imageUrl;
-  image.alt = altTxt;
-  const parent = document.querySelector(".item__img");
-  if (parent != null) parent.appendChild(image);
-}
-
+/*
 function makeTitle(name = "") {
   const h1 = document.querySelector("#title");
   if (h1 != null) h1.textContent = name;
 }
+*/
 
+/*
+function makeImage(imageUrl = "", altTxt = "") {
+  const image = document.createElement("img");
+  image.src = imageUrl;
+  image.alt = altTxt;
+  
+}
+*/
+
+/*
 function makePrice(price = "") {
   const span = document.querySelector("#price");
   if (span != null) span.textContent = price;
@@ -47,24 +79,18 @@ function makeDescription(description = "") {
   const p = document.querySelector("#description");
   if (p != null) p.textContent = description;
 }
-
+*/
+/*
 function makeColors(colors = "") {
-  const select = document.querySelector("#colors");
-  if (select != null) {
-    colors.forEach((color) => {
-      const option = document.createElement("option");
-      option.value = color;
-      option.textContent = color;
-      select.appendChild(option);
-    });
+  
   }
 }
-
+*/
 // ADD PRODUCTS TO CART
 
 const button = document.querySelector("#addToCart");
 button.addEventListener("click", addToCart);
-
+/*
 function addToCart() {
   let cart = getCart();
   const productColor = document.querySelector("#colors").value;
@@ -85,7 +111,7 @@ function addToCart() {
     return true;
   }
   if (window.confirm(`Vous rendre au panier ?`))
-  window.location.href = "cart.html";
+    window.location.href = "cart.html";
 
   if (cart) {
     const resultFind = cart.find(
@@ -94,7 +120,7 @@ function addToCart() {
 
     if (resultFind) {
       let newQuantity =
-      parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
+        parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
       resultFind.quantity = newQuantity;
       localStorage.setItem("cart", JSON.stringify(cart));
       console.log(cart);
@@ -110,3 +136,4 @@ function addToCart() {
     console.log(cart);
   }
 }
+*/

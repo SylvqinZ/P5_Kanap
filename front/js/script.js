@@ -6,21 +6,40 @@ fetch("http://localhost:3000/api/products")
     console.log(err);
   });
 
-
-newPageTitle = 'Kanap - Les meilleurs canapé de Paris';
-document.querySelector('title').textContent = newPageTitle;
-
+setHtmlHeadTitle("Les meilleurs canapé de Paris - Kanap");
 
 function addProducts(sofas = []) {
-  
-
   sofas.forEach((sofa) => {
     const { _id, imageUrl, altTxt, name, description } = sofa;
-    const anchor = makeAnchor(_id);
+    //const anchor = makeAnchor(_id);
+    //const image = makeImage(imageUrl, altTxt);
+    //const h3 = makeH3(name);
+    //const p = makeParagraph(description);
     const article = document.createElement("article");
-    const image = makeImage(imageUrl, altTxt);
-    const h3 = makeH3(name);
-    const p = makeParagraph(description);
+    const anchor = createHtmlTag(
+      (htmlTag = "a"),
+      (attributes = { src: _id, href: "./product.html?id=" + _id }),
+      (content = ""),
+      article
+    );
+    const p = createHtmlTag(
+      (htmlTag = "p"),
+      (attributes = { src: description, class: "productDescription" }),
+      (textContent = description),
+      article
+    );
+    const image = createHtmlTag(
+      (htmlTag = "img"),
+      (attributes = { src: imageUrl, alt: altTxt }),
+      article
+    );
+    const h3 = createHtmlTag(
+      (htmlTag = "h3"),
+      (attributes = { src: name, class: "productName" }),
+      (textContent = name),
+      article
+    );
+
     appendElementsToArticle(article, image, h3, p);
     appendArticleToAnchor(anchor, article);
   });
@@ -32,12 +51,6 @@ function appendElementsToArticle(article = "", image = "", h3 = "", p = "") {
   article.appendChild(p);
 }
 
-function makeAnchor(id = "") {
-  const anchor = document.createElement("a");
-  anchor.href = "./product.html?id=" + id;
-  return anchor;
-}
-
 function appendArticleToAnchor(anchor = "", article = "") {
   const items = document.getElementById("items");
   if (items != null) {
@@ -45,6 +58,16 @@ function appendArticleToAnchor(anchor = "", article = "") {
     anchor.appendChild(article);
   }
 }
+
+
+
+/*
+function makeAnchor(id = "") {
+  const anchor = document.createElement("a");
+  anchor.href = "./product.html?id=" + id;
+  return anchor;
+}
+
 
 function makeImage(imageUrl = "", altTxt = "") {
   const image = document.createElement("img");
@@ -66,3 +89,4 @@ function makeParagraph(description = "") {
   p.classList.add("productDescription");
   return p;
 }
+*/
