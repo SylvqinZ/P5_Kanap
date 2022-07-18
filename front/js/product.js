@@ -12,16 +12,8 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 
 function sofa(sofa = "") {
   const { imageUrl, altTxt, name, colors, price, description } = sofa;
-  //productPrice = price;
-  //imgUrl = imageUrl;
-  //altText = altTxt;
-  //makeImage(imageUrl, altTxt);
-  //makeTitle(name);
-  //makeColors(colors);
-  //makePrice(price);
-  //makeDescription(description);
 
-  //GET PRODUTCOLORS
+  // GET PRODUCT COLORS
   const option = document.querySelector("#colors");
   if (option != null) {
     colors.forEach((color) => {
@@ -33,8 +25,8 @@ function sofa(sofa = "") {
       );
     });
 
-    //GET PRODUCT NAME PAGE TITLE
-    setHtmlHeadTitle(name + " - Kanap");
+    // GET PRODUCT NAME PAGE TITLE
+    setHtmlHeadTitle(`${name} - Kanap`);
 
     // CREATE IMAGES
     const image = createHtmlTag(
@@ -43,7 +35,7 @@ function sofa(sofa = "") {
     );
     const parent = document.querySelector(".item__img");
     if (parent != null) parent.appendChild(image);
-
+    // GET PRODUCT TITLE / PRICE / DESCRIPTION
     manageHtmlTag(document.querySelector("#title"), {}, (textContent = name));
     manageHtmlTag(document.querySelector("#price"), {}, (textContent = price));
     manageHtmlTag(
@@ -53,44 +45,12 @@ function sofa(sofa = "") {
     );
   }
 }
-/*
-function makeTitle(name = "") {
-  const h1 = document.querySelector("#title");
-  if (h1 != null) h1.textContent = name;
-}
-*/
 
-/*
-function makeImage(imageUrl = "", altTxt = "") {
-  const image = document.createElement("img");
-  image.src = imageUrl;
-  image.alt = altTxt;
-  
-}
-*/
-
-/*
-function makePrice(price = "") {
-  const span = document.querySelector("#price");
-  if (span != null) span.textContent = price;
-}
-
-function makeDescription(description = "") {
-  const p = document.querySelector("#description");
-  if (p != null) p.textContent = description;
-}
-*/
-/*
-function makeColors(colors = "") {
-  
-  }
-}
-*/
 // ADD PRODUCTS TO CART
 
 const button = document.querySelector("#addToCart");
 button.addEventListener("click", addToCart);
-/*
+
 function addToCart() {
   let cart = getCart();
   const productColor = document.querySelector("#colors").value;
@@ -105,7 +65,7 @@ function addToCart() {
     productColor == null ||
     productColor == "" ||
     productQuantity == null ||
-    productQuantity == 0
+    productQuantity < 0
   ) {
     alert("Sélectionnez une couleur/quantité");
     return true;
@@ -113,27 +73,5 @@ function addToCart() {
   if (window.confirm(`Vous rendre au panier ?`))
     window.location.href = "cart.html";
 
-  if (cart) {
-    const resultFind = cart.find(
-      (el) => el.id === productId && el.color === productColor
-    );
-
-    if (resultFind) {
-      let newQuantity =
-        parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
-      resultFind.quantity = newQuantity;
-      localStorage.setItem("cart", JSON.stringify(cart));
-      console.log(cart);
-    } else {
-      cart.push(productInfo);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      console.log(cart);
-    }
-  } else {
-    cart = [];
-    cart.push(productInfo);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(cart);
-  }
+  
 }
-*/
