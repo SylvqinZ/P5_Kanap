@@ -67,7 +67,7 @@ function manageHtmlTag(
 }
 
 function addProductToCart(cartItem = {}) {
-  let cart = getCart();
+  
 }
   
 function deleteProductToCart(cartItem = {}) {}

@@ -73,5 +73,26 @@ function addToCart() {
   if (window.confirm(`Vous rendre au panier ?`))
     window.location.href = "cart.html";
 
-  
+  if (cart) {
+    const resultFind = cart.find(
+      (el) => el.id === productId && el.color === productColor
+    );
+
+    if (resultFind) {
+      const newQuantity =
+        parseInt(productInfo.quantity) + parseInt(resultFind.quantity);
+      resultFind.quantity = newQuantity;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log(cart);
+    } else {
+      cart.push(productInfo);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log(cart);
+    }
+  } else {
+    cart = [];
+    cart.push(productInfo);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(cart);
+  }
 }
