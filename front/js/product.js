@@ -49,8 +49,13 @@ function sofa(sofa = "") {
 // ADD PRODUCTS TO CART
 
 const button = document.querySelector("#addToCart");
-button.addEventListener("click", addToCart);
+button.addEventListener("click", function(event) {
+  const productColor = document.querySelector("#colors").value;
+  const quantity = document.querySelector("#quantity").value;
+  addProductToCart(productId, productColor, quantity);
+});
 
+/*
 function addToCart() {
   let cart = getCart();
   const productColor = document.querySelector("#colors").value;
@@ -65,7 +70,7 @@ function addToCart() {
     productColor == null ||
     productColor == "" ||
     productQuantity == null ||
-    productQuantity < 0
+    productQuantity <= 0 
   ) {
     alert("Sélectionnez une couleur/quantité");
     return true;
@@ -96,3 +101,4 @@ function addToCart() {
     console.log(cart);
   }
 }
+*/
