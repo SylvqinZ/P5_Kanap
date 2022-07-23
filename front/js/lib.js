@@ -84,8 +84,21 @@ quantity = 0) {
     window.location.href = "cart.html";
 }
 
-function deleteProductToCart(productId = "", productColor = "") {}
+function deleteProductToCart(productId = "", productColor = "", /*name*/) {
+  let cart = getCart();
+  let key = findProductFromCart(productId, productColor);
+  cart.splice(0,1);
+  saveCart(cart)
 
+  /*
+  for (i = 0; i < cart.length; i = 1){
+    if (cart[i].name === name){
+      cart.splice(i,1)
+      return 
+    }
+  }
+ */
+}
 function findProductFromCart(productId = "", productColor = "") {
   let cart = getCart();
   const resultFind = cart.findIndex(
