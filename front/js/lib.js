@@ -27,18 +27,7 @@ function createHtmlTag(
 ) {
   // Creating HTML tag element
   const tag = document.createElement(htmlTag);
-  // Forwarding process to manageHtmlTag
-  for (const attribute in attributes) {
-    const value = attributes[attribute];
-    tag.setAttribute(attribute, value);
-  }
-  if (content != "") tag.textContent = content;
-
-  if (appendTo != null) {
-    appendTo.appendChild(tag);
-  }
-  return tag;
-  // return manageHtmlTag(htmlTag, attributes, content, appendTo);
+  return manageHtmlTag(tag, attributes, content, appendTo);
 }
 
 function manageHtmlTag(
@@ -66,22 +55,70 @@ function manageHtmlTag(
   return tag;
 }
 
-function addProductToCart(cartItem = {}) {
-  
+function addProductToCart(productId = "", productColor = "", quantity = 0) {
+  if (
+    productColor == null ||
+    productColor == "" ||
+    quantity == null ||
+    quantity <= 0
+  ) {
+    alert("Sélectionnez une couleur/quantité");
+    return false;
+  }
+  const productInfo = {
+    id: productId,
+    color: productColor,
+    quantity: Number(quantity),
+  };
+  let cart = getCart();
+  let key = findProductFromCart(productId, productColor);
+  if (key == -1) {
+    cart.push(productInfo);
+    saveCart(cart);
+  } else {
+    updateProductQuantityFromCart(productId, productColor, quantity);
+  }
+  if (window.confirm(`Vous rendre au panier ?`))
+    window.location.href = "cart.html";
 }
-  
-function deleteProductToCart(cartItem = {}) {}
 
-function findProductFromCart(productId = "", productColor = "") {}
+
+function findProductFromCart(productId = "", productColor = "") {
+  let cart = getCart();
+  const resultFind = cart.findIndex(
+    (el) => el.id === productId && el.color === productColor
+  );
+  return resultFind;
+}
 
 function updateProductQuantityFromCart(
   productId = "",
   productColor = "",
   quantity = 0
-) {}
+) {
+  let cart = getCart();
+  let key = findProductFromCart(productId, productColor);
+  if (key == -1) return false;
+  const newQuantity = parseInt(cart[key].quantity) + parseInt(quantity);
+  cart[key].quantity = newQuantity;
+  saveCart(cart);
+}
 
+function deleteProductToCart(productId = "", productColor = "") {
+  let cart = getCart();
+  let key = findProductFromCart(productId, productColor);
+  cart.splice(0, 1);
+  saveCart(cart);
 
-
+  /*
+  for (i = 0; i < cart.length; i = 1){
+    if (cart[i].name === name){
+      cart.splice(i,1)
+      return 
+    }
+  }
+ */
+}
 
 // let myDiv1 = createHtmlTag('div');
 // let myDiv2 = createHtmlTag('div', {class: "my-css-class"});
@@ -93,3 +130,5 @@ function updateProductQuantityFromCart(
 // image.src = article.imageUrl
 
 // manageHtmlTag(document.querySelector("title"), {}, "Kanap - " + name);
+
+
