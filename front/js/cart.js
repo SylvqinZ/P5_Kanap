@@ -1,7 +1,5 @@
 setHtmlHeadTitle("Votre Panier - Kanap");
 let cart = getCart();
-let total = 0;
-let itemQuantity = 0;
 
 function renderCart() {
   for (let item of cart) {
@@ -12,11 +10,11 @@ function renderCart() {
           return response.json();
         })
         .then(function (data) {
-          let cartItems = document.getElementById("cart__items");
+          const cartItems = document.getElementById("cart__items");
 
           // ADDING ARTICLE
 
-          let newCartItem = createHtmlTag(
+          const newCartItem = createHtmlTag(
             (htmlTag = "article"),
             (attributes = {
               class: "cart__item",
@@ -29,7 +27,7 @@ function renderCart() {
 
           // ADDING PRODUCT IMAGE
 
-          let itemImg = createHtmlTag(
+          const itemImg = createHtmlTag(
             (htmlTag = "div"),
             (attributes = { class: "cart__item__img" }),
             "",
@@ -43,7 +41,7 @@ function renderCart() {
             itemImg
           );
 
-          let content = createHtmlTag(
+          const content = createHtmlTag(
             (htmlTag = "div"),
             (attributes = { class: "cart__item__content" }),
             "",
@@ -52,7 +50,7 @@ function renderCart() {
 
           // ADDING PRODUCT DESCRIPTION
 
-          let contentDescription = createHtmlTag(
+          const contentDescription = createHtmlTag(
             (htmlTag = "div"),
             (attributes = { class: "cart__item__content__description" }),
             "",
@@ -88,14 +86,14 @@ function renderCart() {
 
           // ADDING CONTENT SETTINGS
 
-          let contentSettings = createHtmlTag(
+          const contentSettings = createHtmlTag(
             (htmlTag = "div"),
             (attributes = { class: "cart__item__content__settings" }),
             "",
             content
           );
 
-          let contentSettingsQuantity = createHtmlTag(
+          const contentSettingsQuantity = createHtmlTag(
             (htmlTag = "div"),
             (attributes = { class: "cart__item__content__settings__quantity" }),
             "",
@@ -111,7 +109,7 @@ function renderCart() {
             contentSettingsQuantity
           );
 
-          createHtmlTag(
+          const quantityInput = createHtmlTag(
             (htmlTag = "input"),
             (attributes = {
               class: "itemQuantity",
@@ -127,7 +125,7 @@ function renderCart() {
 
           // DELETE PRODUCT
 
-          let settingsDelete = createHtmlTag(
+          const settingsDelete = createHtmlTag(
             (htmlTag = "div"),
             (attributes = { class: "cart__item__content__settings__delete" }),
             "",
@@ -143,6 +141,11 @@ function renderCart() {
 
           // DISPLAY CART PRICE & QUANTITY
 
+          let total = 0;
+          let itemQuantity = 0;
+          total += data.price * item.quantity;
+          itemQuantity += parseInt(item.quantity);
+
           manageHtmlTag(
             document.querySelector("#totalPrice"),
             {},
@@ -154,14 +157,11 @@ function renderCart() {
             (innerHTML = itemQuantity)
           );
 
-          total += data.price * item.quantity;
-          itemQuantity += parseInt(item.quantity);
+          
         });
     } catch (error) {
       console.log(error);
     }
   }
 }
-
 renderCart();
-

@@ -55,9 +55,7 @@ function manageHtmlTag(
   return tag;
 }
 
-function addProductToCart(productId = "",
-productColor = "",
-quantity = 0) {
+function addProductToCart(productId = "", productColor = "", quantity = 0) {
   if (
     productColor == null ||
     productColor == "" ||
@@ -84,21 +82,7 @@ quantity = 0) {
     window.location.href = "cart.html";
 }
 
-function deleteProductToCart(productId = "", productColor = "", /*name*/) {
-  let cart = getCart();
-  let key = findProductFromCart(productId, productColor);
-  cart.splice(0,1);
-  saveCart(cart)
 
-  /*
-  for (i = 0; i < cart.length; i = 1){
-    if (cart[i].name === name){
-      cart.splice(i,1)
-      return 
-    }
-  }
- */
-}
 function findProductFromCart(productId = "", productColor = "") {
   let cart = getCart();
   const resultFind = cart.findIndex(
@@ -120,6 +104,22 @@ function updateProductQuantityFromCart(
   saveCart(cart);
 }
 
+function deleteProductToCart(productId = "", productColor = "") {
+  let cart = getCart();
+  let key = findProductFromCart(productId, productColor);
+  cart.splice(0, 1);
+  saveCart(cart);
+
+  /*
+  for (i = 0; i < cart.length; i = 1){
+    if (cart[i].name === name){
+      cart.splice(i,1)
+      return 
+    }
+  }
+ */
+}
+
 // let myDiv1 = createHtmlTag('div');
 // let myDiv2 = createHtmlTag('div', {class: "my-css-class"});
 // let myDiv3 = createHtmlTag('div', {class: "my-css-class"}, "Ceci est le contenu de ma div");
@@ -130,3 +130,5 @@ function updateProductQuantityFromCart(
 // image.src = article.imageUrl
 
 // manageHtmlTag(document.querySelector("title"), {}, "Kanap - " + name);
+
+
