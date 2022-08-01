@@ -1,5 +1,7 @@
 setHtmlHeadTitle("Votre Panier - Kanap");
 let cart = getCart();
+let total = 0;
+let itemQuantity = 0;
 
 function renderCart() {
   for (let item of cart) {
@@ -123,6 +125,18 @@ function renderCart() {
             contentSettingsQuantity
           );
 
+          quantityInput.addEventListener("change", function (event) {
+            console.log(this.value);
+            console.log(item.id);
+            console.log(item.color);
+            updateProductQuantityFromCart(
+              item.id,
+              item.color,
+              quantityInput.value
+            );
+            window.location.reload();
+          });
+
           // DELETE PRODUCT
 
           const settingsDelete = createHtmlTag(
@@ -132,18 +146,24 @@ function renderCart() {
             contentSettings
           );
 
-          createHtmlTag(
+          let deleteBtn = createHtmlTag(
             (htmlTag = "p"),
             (attributes = { class: "deleteItem" }),
             (innerHTML = "Supprimer"),
             settingsDelete
           );
 
+          deleteBtn.addEventListener("click", function (event) {
+            console.log(event);
+            console.log(item.id);
+            console.log(item.color);
+            deleteProductToCart(item.id, item.color);
+            window.location.reload();
+          });
+
           // DISPLAY CART PRICE & QUANTITY
 
-          let total = 0;
-          let itemQuantity = 0;
-          total += data.price * item.quantity;
+          total += parseInt(data.price) * parseInt(item.quantity);
           itemQuantity += parseInt(item.quantity);
 
           manageHtmlTag(
@@ -156,8 +176,6 @@ function renderCart() {
             {},
             (innerHTML = itemQuantity)
           );
-
-          
         });
     } catch (error) {
       console.log(error);
@@ -165,3 +183,56 @@ function renderCart() {
   }
 }
 renderCart();
+
+let form = document.querySelector("form");
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  submitForm();
+});
+
+function submitForm() {
+  const body = makeRequestBody();
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      Accept: "application/json",
+      "content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then(function (value) {
+      window.location = "confirmation.html?orderId=" + value.orderId;
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+
+function makeRequestBody() {
+  const firstName = document.getElementById("firstName");
+  const lastName = document.getElementById("lastName");
+  const address = document.getElementById("address");
+  const city = document.getElementById("city");
+  const email = document.getElementById("email");
+  const ids = [];
+
+  for (let i = 0; i < cart.length; i++) {
+    ids.push(cart[i].id);
+    console.log(ids);
+  }
+  const body = {
+    contact: {
+      firstName: firstName.value,
+      lastname: lastName.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
+    },
+    products: ids,
+  };
+  console.log(body);
+  return body;
+}
