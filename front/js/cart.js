@@ -3,6 +3,7 @@ let cart = getCart();
 let total = 0;
 let itemQuantity = 0;
 
+// RECOVER PRODUCT DATA FROM THE API & RENDER DATA
 function renderCart() {
   for (let item of cart) {
     let url = `http://localhost:3000/api/products/${item.id}`;
@@ -59,7 +60,7 @@ function renderCart() {
             content
           );
 
-          // PRODUCT NAME
+          // ADDING PRODUCT NAME
 
           createHtmlTag(
             (htmlTag = "h2"),
@@ -68,7 +69,7 @@ function renderCart() {
             content
           );
 
-          // PRODUCT COLOR
+          // ADDING PRODUCT COLOR
 
           createHtmlTag(
             (htmlTag = "p"),
@@ -77,7 +78,7 @@ function renderCart() {
             content
           );
 
-          // PRODUCT PRICE
+          // ADDING PRODUCT PRICE
 
           createHtmlTag(
             (htmlTag = "p"),
@@ -102,7 +103,7 @@ function renderCart() {
             contentSettings
           );
 
-          // PRODUCT QUANTITY
+          // ADDING PRODUCT QUANTITY
 
           createHtmlTag(
             (htmlTag = "p"),
@@ -137,7 +138,7 @@ function renderCart() {
             window.location.reload();
           });
 
-          // DELETE PRODUCT
+          // ADDING DELETE PRODUCT
 
           const settingsDelete = createHtmlTag(
             (htmlTag = "div"),
@@ -202,8 +203,8 @@ function submitForm() {
     },
   })
     .then((res) => res.json())
-    .then(function (value) {
-      window.location = "confirmation.html?orderId=" + value.orderId;
+    .then((data) => {
+      window.location = "confirmation.html?orderId=" + data.orderId;
     })
 
     .catch(function (err) {
@@ -226,7 +227,7 @@ function makeRequestBody() {
   const body = {
     contact: {
       firstName: firstName.value,
-      lastname: lastName.value,
+      lastName: lastName.value,
       address: address.value,
       city: city.value,
       email: email.value,
