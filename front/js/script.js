@@ -1,14 +1,17 @@
+// CHANGE THE HOMEPAGE TITLE
+setHtmlHeadTitle("Les meilleurs canapé de Paris - Kanap");
+
+//recover data from api
 fetch("http://localhost:3000/api/products")
   .then((res) => res.json())
-  .then((data) => renderSofa(data))
+  .then((data) => renderSofas(data))
   .catch((err) => {
     console.log("error");
     console.log(err);
   });
 
-setHtmlHeadTitle("Les meilleurs canapé de Paris - Kanap");
-
-function renderSofa(data = []) {
+// CREATE ARTICLES
+function renderSofas(data = []) {
   data.forEach((sofa) => {
     const { _id, imageUrl, altTxt, name, description } = sofa;
     const article = document.createElement("article");
@@ -36,21 +39,13 @@ function renderSofa(data = []) {
       article
     );
 
-    appendElementsToArticle(article, image, h3, p);
-    appendArticleToAnchor(anchor, article);
+    article.appendChild(image);
+    article.appendChild(h3);
+    article.appendChild(p);
+    const items = document.getElementById("items");
+    if (items != null) {
+      items.appendChild(anchor);
+      anchor.appendChild(article);
+    }
   });
-}
-
-function appendElementsToArticle(article = "", image = "", h3 = "", p = "") {
-  article.appendChild(image);
-  article.appendChild(h3);
-  article.appendChild(p);
-}
-
-function appendArticleToAnchor(anchor = "", article = "") {
-  const items = document.getElementById("items");
-  if (items != null) {
-    items.appendChild(anchor);
-    anchor.appendChild(article);
-  }
 }

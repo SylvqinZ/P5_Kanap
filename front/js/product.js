@@ -1,16 +1,18 @@
 const productId = getUrlParam((paramName = "id"));
 console.log(productId);
 
+// RECOVER PRODUCT DATA FROM THE API 
 fetch(`http://localhost:3000/api/products/${productId}`)
   .then((res) => res.json())
-  .then((product) => sofa(product))
+  .then((product) => renderSofa(product))
   .catch((err) => {
     console.log("error");
     console.log(err);
     alert();
   });
 
-function sofa(sofa = "") {
+// RENDER PRODUCT DATA FROM FETCH
+function renderSofa(sofa = "") {
   const { imageUrl, altTxt, name, colors, price, description } = sofa;
 
   // GET PRODUCT NAME PAGE TITLE
@@ -35,6 +37,7 @@ function sofa(sofa = "") {
     );
     const parent = document.querySelector(".item__img");
     if (parent != null) parent.appendChild(image);
+    
     // GET PRODUCT TITLE / PRICE / DESCRIPTION
     manageHtmlTag(document.querySelector("#title"), {}, (textContent = name));
     manageHtmlTag(document.querySelector("#price"), {}, (textContent = price));
