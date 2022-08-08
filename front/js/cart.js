@@ -185,54 +185,111 @@ function renderCart() {
 }
 renderCart();
 
-function getForm() {
+function addingFormEventsListeners() {
   let form = document.querySelector(".cart__order__form");
-
-  let firstNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
-
   form.firstName.addEventListener("change", function () {
-    validFirstName(this
-      );
+    validateFirstName();
   });
-
-  const validFirstName = function (firstName) {
-    let firstNameErrorMsg = firstName.nextElementSibling;
-
-    if (firstNameRegExp.test(firstName.value)) {
-      firstNameErrorMsg.innerHTML = "";
-    } else {
-      firstNameErrorMsg.innerHTML = "Veuillez renseigner ce champ.";
-    }
-  };
-
+  form.lastName.addEventListener("change", function () {
+    validateLastName();
+  });
+  form.address.addEventListener("change", function () {
+    validateAddress();
+  });
+  form.city.addEventListener("change", function () {
+    validateCity();
+  });
+  form.email.addEventListener("change", function () {
+    validateEmail();
+  });
 }
-getForm();
+addingFormEventsListeners();
+
+function validateFormField(field, regex) {
+  let errorMsg = field.nextElementSibling;
+  if (regex.test(field.value)) {
+    errorMsg.textContent = "";
+    return true;
+  } else {
+    errorMsg.textContent = "Ce champ a été mal renseigné.";
+    return false;
+  }
+}
+
+function validateFirstName() {
+  let form = document.querySelector(".cart__order__form");
+  let firstNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+  return validateFormField(form.firstName, firstNameRegExp);
+}
+
+function validateLastName() {
+  let form = document.querySelector(".cart__order__form");
+  let lastNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+  return validateFormField(form.lastName, lastNameRegExp);
+}
+
+function validateAddress() {
+  let form = document.querySelector(".cart__order__form");
+  let addressRegExp = new RegExp("^[0-9A-ZÀ-ÿ-a-z,.' -]+$");
+  return validateFormField(form.address, addressRegExp);
+}
+
+function validateCity() {
+  let form = document.querySelector(".cart__order__form");
+  let cityRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+  return validateFormField(form.city, cityRegExp);
+}
+
+function validateEmail() {
+  let form = document.querySelector(".cart__order__form");
+  let emailRegExp = new RegExp(
+    "^[A-Za-z0-9._-]+@[A-Za-z0-9.]+.[A-Za-z0-9-.]+$"
+  );
+  return validateFormField(form.email, emailRegExp);
+}
+
+function validateForm() {
+  let isFormValid = true;
+  if (validateFirstName() === false) isFormValid = false;
+  if (validateLastName() === false) isFormValid = false;
+  if (validateAddress() === false) isFormValid = false;
+  if (validateCity() === false) isFormValid = false;
+  if (validateEmail() === false) isFormValid = false;
+  return isFormValid;
+}
 
 let btnForm = document.querySelector("form");
 btnForm.addEventListener("submit", function (e) {
   e.preventDefault();
-
   submitForm();
 });
 
 function submitForm() {
   const body = makeRequestBody();
-  fetch("http://localhost:3000/api/products/order", {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: {
-      Accept: "application/json",
-      "content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      window.location = "confirmation.html?orderId=" + data.orderId;
-    })
-
-    .catch(function (err) {
-      console.log(err);
-    });
+  if (body.products.length > 0);
+  {
+    let isFormValid = validateForm();
+    console.log(isFormValid);
+    if (isFormValid === true) {
+      fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Accept: "application/json",
+          "content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          window.location = "confirmation.html?orderId=" + data.orderId;
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    } else {
+      alert("Le formulaire n'a pas bien été renseigné");
+    }
+  }
 }
 
 function makeRequestBody() {

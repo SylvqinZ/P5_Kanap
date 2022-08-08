@@ -1,14 +1,17 @@
 const productId = getUrlParam((paramName = "id"));
-console.log(productId);
 
-// RECOVER PRODUCT DATA FROM THE API 
+// RECOVER PRODUCT DATA FROM THE API
 fetch(`http://localhost:3000/api/products/${productId}`)
   .then((res) => res.json())
   .then((product) => renderSofa(product))
   .catch((err) => {
     console.log("error");
     console.log(err);
-    alert();
+    manageHtmlTag(
+      document.querySelector("article"),
+      {},
+      (textContent = "ERROR 404")
+    );
   });
 
 // RENDER PRODUCT DATA FROM FETCH
@@ -37,7 +40,7 @@ function renderSofa(sofa = "") {
     );
     const parent = document.querySelector(".item__img");
     if (parent != null) parent.appendChild(image);
-    
+
     // GET PRODUCT TITLE / PRICE / DESCRIPTION
     manageHtmlTag(document.querySelector("#title"), {}, (textContent = name));
     manageHtmlTag(document.querySelector("#price"), {}, (textContent = price));
@@ -57,3 +60,5 @@ button.addEventListener("click", function (event) {
   const quantity = document.querySelector("#quantity").value;
   addProductToCart(productId, productColor, quantity);
 });
+
+
