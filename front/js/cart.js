@@ -212,25 +212,36 @@ function submitForm() {
     });
 }
 
-function makeRequestBody() {
-  const firstName = document.getElementById("firstName");
-  const lastName = document.getElementById("lastName");
-  const address = document.getElementById("address");
-  const city = document.getElementById("city");
-  const email = document.getElementById("email");
-  const ids = [];
+const nameRegex = /^[A-ZÀ-ÿ-a-z,.' -]+$/;
+const emailRegex = /^[A-Za-z0-9._-]+@[A-Za-z0-9.]+\.[A-Za-z0-9-.]+$/;
 
+function makeRequestBody() {
+  const ids = [];
+  const lastName = document.getElementById("lastName").value;
+  const firstName = document.getElementById("firstName").value;
+  const address = document.getElementById("address").value;
+  const city = document.getElementById("city").value;
+  const email = document.getElementById("email").value;
+  if (nameRegex.test(firstName && lastName) === false) {
+    alert("name");
+    return true;
+  }
+
+  if (emailRegex.test(email) === false) {
+    alert("wrong mail");
+    return true;
+  }
   for (let i = 0; i < cart.length; i++) {
     ids.push(cart[i].id);
     console.log(ids);
   }
   const body = {
     contact: {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      address: address.value,
-      city: city.value,
-      email: email.value,
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      city: city,
+      email: email,
     },
     products: ids,
   };
