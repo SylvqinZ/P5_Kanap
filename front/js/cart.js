@@ -222,8 +222,9 @@ function makeRequestBody() {
   const address = document.getElementById("address").value;
   const city = document.getElementById("city").value;
   const email = document.getElementById("email").value;
+  
   if (nameRegex.test(firstName) === false) {
-    alert("Veuillez remplir le formulaire");
+    alert("Le prénom est mal renseigné");
     return true;
   }
 
