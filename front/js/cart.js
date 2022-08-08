@@ -191,7 +191,8 @@ function getForm() {
   let firstNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
 
   form.firstName.addEventListener("change", function () {
-    validFirstName(this);
+    validFirstName(this
+      );
   });
 
   const validFirstName = function (firstName) {
