@@ -185,8 +185,30 @@ function renderCart() {
 }
 renderCart();
 
-let form = document.querySelector("form");
-form.addEventListener("submit", function (e) {
+function getForm() {
+  let form = document.querySelector(".cart__order__form");
+
+  let firstNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+
+  form.firstName.addEventListener("change", function () {
+    validFirstName(this);
+  });
+
+  const validFirstName = function (firstName) {
+    let firstNameErrorMsg = firstName.nextElementSibling;
+
+    if (firstNameRegExp.test(firstName.value)) {
+      firstNameErrorMsg.innerHTML = "";
+    } else {
+      firstNameErrorMsg.innerHTML = "Veuillez renseigner ce champ.";
+    }
+  };
+
+}
+getForm();
+
+let btnForm = document.querySelector("form");
+btnForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   submitForm();
@@ -212,40 +234,27 @@ function submitForm() {
     });
 }
 
-const nameRegex = /^[A-ZÀ-ÿ-a-z,.' -]+$/;
-const emailRegex = /^[A-Za-z0-9._-]+@[A-Za-z0-9.]+\.[A-Za-z0-9-.]+$/;
-
 function makeRequestBody() {
-  const ids = [];
-  const lastName = document.getElementById("lastName").value;
-  const firstName = document.getElementById("firstName").value;
-  const address = document.getElementById("address").value;
-  const city = document.getElementById("city").value;
-  const email = document.getElementById("email").value;
-  
-  if (nameRegex.test(firstName) === false) {
-    alert("Le prénom est mal renseigné");
-    return true;
-  }
+  const lastName = document.getElementById("lastName");
+  const firstName = document.getElementById("firstName");
+  const address = document.getElementById("address");
+  const city = document.getElementById("city");
+  const email = document.getElementById("email");
 
-  if (emailRegex.test(email) === false) {
-    alert("L'adresse email est mal renseigné");
-    return true;
-  }
+  const ids = [];
   for (let i = 0; i < cart.length; i++) {
     ids.push(cart[i].id);
     console.log(ids);
   }
   const body = {
     contact: {
-      firstName: firstName,
-      lastName: lastName,
-      address: address,
-      city: city,
-      email: email,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
     },
     products: ids,
   };
-  console.log(body);
   return body;
 }
