@@ -223,12 +223,12 @@ function makeRequestBody() {
   const city = document.getElementById("city").value;
   const email = document.getElementById("email").value;
   if (nameRegex.test(firstName && lastName) === false) {
-    alert("name");
+    alert("Veuillez remplir le formulaire");
     return true;
   }
 
   if (emailRegex.test(email) === false) {
-    alert("wrong mail");
+    alert("L'adresse email est mal renseigné");
     return true;
   }
   for (let i = 0; i < cart.length; i++) {
