@@ -222,7 +222,7 @@ function makeRequestBody() {
   const address = document.getElementById("address").value;
   const city = document.getElementById("city").value;
   const email = document.getElementById("email").value;
-  if (nameRegex.test(firstName & lastName) === false) {
+  if (nameRegex.test(firstName) === false) {
     alert("Veuillez remplir le formulaire");
     return true;
   }
