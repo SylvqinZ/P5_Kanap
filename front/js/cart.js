@@ -4,9 +4,9 @@ let total = 0;
 let itemQuantity = 0;
 
 function emptyCart() {
-  document.querySelector("#cartAndFormContainer h1").innerHTML =
+  document.querySelector("#cartAndFormContainer h1").textContent =
     "Votre Panier est vide";
-  document.querySelector(".cart").innerHTML = "";
+  document.querySelector(".cart").textContent = "";
 }
 if (cart.length == 0) {
   emptyCart();
@@ -73,7 +73,7 @@ function renderCart() {
           createHtmlTag(
             (htmlTag = "h2"),
             (attributes = {}),
-            (innerHTML = data.name),
+            (textContent = data.name),
             content
           );
 
@@ -82,7 +82,7 @@ function renderCart() {
           createHtmlTag(
             (htmlTag = "p"),
             (attributes = {}),
-            (innerHTML = item.color),
+            (textContent = item.color),
             content
           );
 
@@ -91,7 +91,7 @@ function renderCart() {
           createHtmlTag(
             (htmlTag = "p"),
             (attributes = {}),
-            (innerHTML = `${data.price} €`),
+            (textContent = `${data.price} €`),
             contentDescription
           );
 
@@ -116,7 +116,7 @@ function renderCart() {
           createHtmlTag(
             (htmlTag = "p"),
             (attributes = {}),
-            (innerHTML = "Qté"),
+            (textContent = "Qté"),
             contentSettingsQuantity
           );
 
@@ -158,7 +158,7 @@ function renderCart() {
           const deleteBtn = createHtmlTag(
             (htmlTag = "p"),
             (attributes = { class: "deleteItem" }),
-            (innerHTML = "Supprimer"),
+            (textContent = "Supprimer"),
             settingsDelete
           );
 
@@ -178,12 +178,12 @@ function renderCart() {
           manageHtmlTag(
             document.querySelector("#totalPrice"),
             {},
-            (innerHTML = total)
+            (textContent = total)
           );
           manageHtmlTag(
             document.querySelector("#totalQuantity"),
             {},
-            (innerHTML = itemQuantity)
+            (textContent = itemQuantity)
           );
         });
     } catch (error) {
@@ -258,7 +258,7 @@ function validateCity() {
 function validateEmail() {
   let form = document.querySelector(".cart__order__form");
   let emailRegExp = new RegExp(
-    "^[A-Za-z0-9._-]+[@][A-Za-z0-9.-_]+[.][a-z]{2,3}$"
+    "^[A-Za-z0-9._-]+[@][A-Za-z0-9.-_]+[.][a-zA-Z]{2,3}$"
   );
   return validateFormField(form.email, emailRegExp);
 }
