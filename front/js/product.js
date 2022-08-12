@@ -53,12 +53,9 @@ function renderSofa(sofa = "") {
 }
 
 // ADD PRODUCTS TO CART
-
 const button = document.querySelector("#addToCart");
 button.addEventListener("click", function (event) {
   const productColor = document.querySelector("#colors").value;
   const quantity = document.querySelector("#quantity").value;
   addProductToCart(productId, productColor, quantity);
 });
-
-

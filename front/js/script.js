@@ -1,7 +1,7 @@
 // CHANGE THE HOMEPAGE TITLE
 setHtmlHeadTitle("Les meilleurs canapé de Paris - Kanap");
 
-//recover data from api
+//RECOVER DATA FROM API
 fetch("http://localhost:3000/api/products")
   .then((res) => res.json())
   .then((data) => renderSofas(data))

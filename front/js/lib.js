@@ -43,7 +43,7 @@ function manageHtmlTag(
   content = "",
   appendTo = null
 ) {
-  if (tag == null) {
+  if (tag === null) {
     alert("htmlTag invalid");
     return false;
   }
@@ -65,9 +65,9 @@ function manageHtmlTag(
 // CREATING A FUNCTION TO ADD A PRODUCT IN THE CART
 function addProductToCart(productId = "", productColor = "", quantity = 0) {
   if (
-    productColor == null ||
-    productColor == "" ||
-    quantity == null ||
+    productColor === null ||
+    productColor === "" ||
+    quantity === null ||
     quantity <= 0
   ) {
     alert("Sélectionnez une couleur/quantité");
@@ -80,7 +80,7 @@ function addProductToCart(productId = "", productColor = "", quantity = 0) {
   };
   let cart = getCart();
   let index = findProductFromCart(productId, productColor);
-  if (index == -1) {
+  if (index === -1) {
     cart.push(productInfo);
     saveCart(cart);
   } else {
@@ -108,7 +108,7 @@ function updateProductQuantityFromCart(
 ) {
   let cart = getCart();
   let index = findProductFromCart(productId, productColor);
-  if (index == -1) return false;
+  if (index === -1) return false;
   const newQuantity = parseInt(quantity);
   cart[index].quantity = newQuantity;
   saveCart(cart);

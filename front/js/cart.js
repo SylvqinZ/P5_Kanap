@@ -3,6 +3,14 @@ let cart = getCart();
 let total = 0;
 let itemQuantity = 0;
 
+function emptyCart() {
+  document.querySelector("#cartAndFormContainer h1").innerHTML =
+    "Votre Panier est vide";
+  document.querySelector(".cart").innerHTML = "";
+}
+if (cart.length == 0) {
+  emptyCart();
+}
 // RECOVER PRODUCT DATA FROM THE API & RENDER DATA
 function renderCart() {
   for (let item of cart) {
@@ -147,7 +155,7 @@ function renderCart() {
             contentSettings
           );
 
-          let deleteBtn = createHtmlTag(
+          const deleteBtn = createHtmlTag(
             (htmlTag = "p"),
             (attributes = { class: "deleteItem" }),
             (innerHTML = "Supprimer"),
@@ -185,6 +193,7 @@ function renderCart() {
 }
 renderCart();
 
+// ADDING EVENTS LISTENERS FOR THE FORM
 function addingFormEventsListeners() {
   let form = document.querySelector(".cart__order__form");
   form.firstName.addEventListener("change", function () {
@@ -205,6 +214,7 @@ function addingFormEventsListeners() {
 }
 addingFormEventsListeners();
 
+// IF THE FORM IS VALID NO MESSAGE DIPLAYED ELSE DIPLAYING AN ERROR MESSAGE
 function validateFormField(field, regex) {
   let errorMsg = field.nextElementSibling;
   if (regex.test(field.value)) {
@@ -216,38 +226,44 @@ function validateFormField(field, regex) {
   }
 }
 
+// REGEX VALIDATION FIRST NAME
 function validateFirstName() {
   let form = document.querySelector(".cart__order__form");
-  let firstNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+  let firstNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]{2,}$");
   return validateFormField(form.firstName, firstNameRegExp);
 }
 
+// REGEX VALIDATION LAST NAME
 function validateLastName() {
   let form = document.querySelector(".cart__order__form");
-  let lastNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+  let lastNameRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]{2,}$");
   return validateFormField(form.lastName, lastNameRegExp);
 }
 
+// REGEX VALIDATION ADDRESS
 function validateAddress() {
   let form = document.querySelector(".cart__order__form");
-  let addressRegExp = new RegExp("^[0-9A-ZÀ-ÿ-a-z,.' -]+$");
+  let addressRegExp = new RegExp("^[0-9A-ZÀ-ÿ-a-z,.' -]{2,}$");
   return validateFormField(form.address, addressRegExp);
 }
 
+// REGEX VALIDATION CITY
 function validateCity() {
   let form = document.querySelector(".cart__order__form");
-  let cityRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+  let cityRegExp = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]{2,}$");
   return validateFormField(form.city, cityRegExp);
 }
 
+// REGEX VALIDATION EMAIL
 function validateEmail() {
   let form = document.querySelector(".cart__order__form");
   let emailRegExp = new RegExp(
-    "^[A-Za-z0-9._-]+@[A-Za-z0-9.]+.[A-Za-z0-9-.]+$"
+    "^[A-Za-z0-9._-]+[@][A-Za-z0-9.-_]+[.][a-z]{2,3}$"
   );
   return validateFormField(form.email, emailRegExp);
 }
 
+// IF FORM VALID RETURN TRUE ELSE RETURN FALSE
 function validateForm() {
   let isFormValid = true;
   if (validateFirstName() === false) isFormValid = false;
@@ -258,40 +274,41 @@ function validateForm() {
   return isFormValid;
 }
 
+// ADDING ORDER BUTTON
 let btnForm = document.querySelector("form");
 btnForm.addEventListener("submit", function (e) {
   e.preventDefault();
   submitForm();
 });
 
+// SUBMITING FORM WITH FETCH POST, IF FORM NOT VALID SEND ALERT
 function submitForm() {
   const body = makeRequestBody();
-  if (body.products.length > 0);
-  {
-    let isFormValid = validateForm();
-    console.log(isFormValid);
-    if (isFormValid === true) {
-      fetch("http://localhost:3000/api/products/order", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          Accept: "application/json",
-          "content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
+  let isFormValid = validateForm();
+  console.log(isFormValid);
+  if (isFormValid === true) {
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.orderId != undefined)
           window.location = "confirmation.html?orderId=" + data.orderId;
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    } else {
-      alert("Le formulaire n'a pas bien été renseigné");
-    }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  } else {
+    alert("Le formulaire n'a pas bien été renseigné");
   }
 }
 
+// GETTING USER FORM INFORMATIONS AND THEIR IDs
 function makeRequestBody() {
   const lastName = document.getElementById("lastName");
   const firstName = document.getElementById("firstName");
